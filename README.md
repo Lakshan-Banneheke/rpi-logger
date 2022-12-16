@@ -1,4 +1,4 @@
-# rbp-logger
+# rpi-logger
 
 Use below command to build docker image compatible with RPI
 ```
