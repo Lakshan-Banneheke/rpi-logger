@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: rbp-metrics-logger
+  name: rpi-metrics-logger
 spec:
   selector:
     matchLabels:
-      app: rbp-metrics-logger
+      app: rpi-metrics-logger
   template:
     metadata:
       labels:
-        app: rbp-metrics-logger # has to match .spec.selector.matchLabels
+        app: rpi-metrics-logger # has to match .spec.selector.matchLabels
     spec:
       containers:
-        - name: rbp-metrics-logger
+        - name: rpi-metrics-logger
           image: lakshanbanneheke/rbp-metrics-logger:latest
           imagePullPolicy: Always
           securityContext:
