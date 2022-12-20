@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: rpi-metrics-logger
-          image: lakshanbanneheke/rbp-metrics-logger:latest
+          image: lakshanbanneheke/rpi-metrics-logger:latest
           imagePullPolicy: Always
           securityContext:
             privileged: true
