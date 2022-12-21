@@ -11,6 +11,8 @@ spec:
       labels:
         app: rpi-metrics-logger # has to match .spec.selector.matchLabels
     spec:
+      nodeSelector:
+        node-role.kubernetes.io/master: "true"
       containers:
         - name: rpi-metrics-logger
           image: lakshanbanneheke/rpi-metrics-logger:latest
