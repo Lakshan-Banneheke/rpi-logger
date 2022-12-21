@@ -1,6 +1,7 @@
 import time
 import datetime
 from kubernetes import client, config
+from csv import writer
 
 # Configs can be set in Configuration class directly or using helper utility
 config.load_kube_config()
@@ -42,23 +43,17 @@ def get_node_util(master_node_name, nodes_idle, node_metrics):
     master_node_cpu = 0
     master_node_mem = 0
     cpu_idle_sum = 0
-    mem_idle_sum = 0
 
     for node_metric in node_metrics:
-        print(node_metric['metadata']['name'])
-
         if node_metric['metadata']['name'] == master_node_name:
             master_node_cpu = int(node_metric['usage']['cpu'][:-1])
             master_node_mem = int(node_metric['usage']['memory'][:-2])
         elif node_metric['metadata']['name'] in nodes_idle:
             cpu_usage = node_metric['usage']['cpu']
-            mem_usage = node_metric['usage']['memory']
             if cpu_usage != '0':
                 cpu_idle_sum += int(cpu_usage[:-1])
-            if mem_usage != 0:
-                mem_idle_sum += int(mem_usage[:-2])
 
-    return [master_node_cpu, master_node_mem], [cpu_idle_sum, mem_idle_sum]
+    return [master_node_cpu, master_node_mem], cpu_idle_sum
 
 
 def parse_node_data(nodes_data, pods_data):
@@ -96,8 +91,12 @@ def get_values():
 
     container_util_sum = get_container_util_sum(pod_metrics)  # [count_container, cpu_usage, mem_usage]
 
-    output_ls = [timestamp] + container_util_sum + master_node_util + [count_nodes_idle] + node_idle_util
-    print(output_ls)
+    return [timestamp, *container_util_sum, *master_node_util, count_nodes_idle, node_idle_util]
 
+while True:
+    metrics = get_values()
+    with open('./log-files/metric_logs.csv', 'a', newline='') as f_object:
+        writer_object = writer(f_object)
+        writer_object.writerow(metrics)
+    time.sleep(0.5)  # sleep for 1 seconds before next call
 
-get_values()
