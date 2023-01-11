@@ -1,4 +1,4 @@
 FROM python
-RUN pip install psutil pyembedded
-COPY rpi-logger.py ./
-CMD ["python","./rpi-logger.py"]
+RUN pip install kubernetes
+COPY rpi-logger-v3.py ./
+CMD ["python","./rpi-logger-v3.py"]
