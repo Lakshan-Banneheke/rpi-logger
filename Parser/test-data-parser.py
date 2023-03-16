@@ -46,7 +46,7 @@ with open('../log-files/metric-logs-example.csv', 'r') as metrics_logger_file, o
                 master_cpu_avg = float(master_cpu_sum) / count
                 master_mem_avg = float(master_mem_sum) / count
 
-                processed_data.append([num_of_containers, container_mem_avg, container_mem_avg, master_cpu_avg, master_mem_avg, power])
+                processed_data.append([master_cpu_avg, master_mem_avg, num_of_containers, container_cpu_avg, container_mem_avg, power])
 
                 i += 1
                 if i == len(experiment_results_extracted):
