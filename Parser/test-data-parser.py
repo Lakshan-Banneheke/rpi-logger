@@ -60,4 +60,3 @@ with open('../log-files/metric-logs-example.csv', 'r') as metrics_logger_file, o
         writer = csv.writer(f_object)
         for data in processed_data:
             writer.writerow(data)
-    print(processed_data)
