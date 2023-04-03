@@ -1,7 +1,7 @@
 import csv
 from datetime import datetime
 
-with open('../log-files/metric-logs-example.csv', 'r') as metrics_logger_file, open('../log-files/experiment-results.csv', 'r') as experiment_results_file:
+with open('../log-files/final-metric-logs.csv', 'r') as metrics_logger_file, open('../log-files/experiment-results.csv', 'r') as experiment_results_file:
     metrics_logger_reader = csv.DictReader(metrics_logger_file)
     experiment_results_reader = csv.DictReader(experiment_results_file)
 
@@ -41,12 +41,13 @@ with open('../log-files/metric-logs-example.csv', 'r') as metrics_logger_file, o
                 master_mem_sum += int(metrics_row['master_node_mem'])
                 count += 1
             else:
-                container_cpu_avg = float(container_cpu_sum) / count
-                container_mem_avg = float(container_mem_sum) / count
-                master_cpu_avg = float(master_cpu_sum) / count
-                master_mem_avg = float(master_mem_sum) / count
+                if count != 0:
+                    container_cpu_avg = float(container_cpu_sum) / count
+                    container_mem_avg = float(container_mem_sum) / count
+                    master_cpu_avg = float(master_cpu_sum) / count
+                    master_mem_avg = float(master_mem_sum) / count
 
-                processed_data.append([master_cpu_avg, master_mem_avg, num_of_containers, container_cpu_avg, container_mem_avg, power])
+                    processed_data.append([master_cpu_avg, master_mem_avg, num_of_containers, container_cpu_avg, container_mem_avg, power])
 
                 i += 1
                 if i == len(experiment_results_extracted):
